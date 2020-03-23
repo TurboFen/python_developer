@@ -4,6 +4,7 @@ from array import array
 class ArrayList:
 
     def __init__(self, arr):
+
         if type(arr[0]) == int:
             self.myarr = array('i', arr)
         if type(arr[0]) == str:
@@ -58,49 +59,61 @@ class ArrayList:
     def __delitem__(self, key):
         del self.myarr[key]
 
-    def append(self,value):
+    def append(self, value):
         self.myarr += array(self.myarr.typecode, [value])
 
     def __clear__(self):
-        for a in range(0, self.myarr.__len__()):
-            del self.myarr[a]
+        self.myarr = self.myarr.typecode
 
-    def pop(self, key):
-        a = self.myarr[key]
-        del self.myarr[key]
-        return a
+    def pop(self, key=0.1):
+        if key == 0.1:
+            value = self.myarr[self.myarr.__len__()-1]
+            arr = self.myarr
+            self.myarr = array(arr.typecode)
+            for a in range(0, arr.__len__() - 1):
+                self.myarr.append(arr[a])
+        else:
+            value = self.myarr[key]
+            arr = self.myarr
+            self.myarr = array(arr.typecode)
+            for b in range(0, arr.__len__()):
+                if b != key:
+                    self.myarr.append(arr[b])
+        return value
 
     def remove(self, value):
-        for a in range(0, self.myarr.__len__()):
-            if self.myarr[a] == value:
-                del self.myarr[a]
-                return
-        return ValueError
+        arr = self.myarr
+        self.myarr = array(arr.typecode)
+        num=0
+        for a in arr:
+            if (a != value):
+               self.myarr.append(a)
+            if (a == value) and(num==1):
+                self.myarr.append(a)
+            if (a==value) and(num==0):
+                num = 1
+        if num == 0:
+            return ValueError
+        else:
+            return
 
-    def __extend__(self, arr):
-        for a in range(0,len(arr)):
+    def extend(self, arr):
+        for a in range(0, len(arr)):
             self.myarr += array(self.myarr.typecode, [arr[a]])
 
-    def __insert__(self,key,value):
+    def __insert__(self, key, value):
         arr = array(self.myarr.typecode)
-        for a in range(0,key-1):
+        for a in range(0, key - 1):
             arr.append(self.myarr[a])
         arr.append(value)
-        for a in range(key,self.myarr.__len__()):
+        for a in range(key, self.myarr.__len__()):
             arr.append(self.myarr[a])
         self.myarr = arr
 
     def reverse(self):
-        arr = array(self.myarr.typecode,)
+        arr = array(self.myarr.typecode)
         arr.extend(self.myarr[::-1])
-        self.myarr=arr
-
-
-
-
-
-
-
+        self.myarr = arr
 
 
 mas = (1, 2, 3, 0, 1, 1, 2, 1)
@@ -119,7 +132,7 @@ check = ArrayList(mas1)
 # print(check.__iter__())
 # check.append("f")
 # print(check[11])
-# check.clear()
+# check.__clear__()
 # print(check[0])
 # print(check.pop(1))
 # print(check[1])
@@ -133,3 +146,6 @@ check = ArrayList(mas1)
 # for a in range(check.__len__()):
 #     print(check[a])
 # print (check.__reversed__())
+# check.remove("h")
+for a in range(check.__len__()):
+    print(check[a])
