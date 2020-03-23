@@ -10,7 +10,7 @@ class ArrayList:
         if type(arr[0]) == str:
             self.myarr = array('u', )
             for a in range(0, len(arr)):
-                self.myarr.extend(arr[a])
+                self.myarr += array(self.myarr.typecode, [arr[a]])
         if type(arr[0]) == float:
             self.myarr = array('f', arr)
 
@@ -67,30 +67,30 @@ class ArrayList:
 
     def pop(self, key=0.1):
         if key == 0.1:
-            value = self.myarr[self.myarr.__len__()-1]
+            value = self.myarr[self.myarr.__len__() - 1]
             arr = self.myarr
             self.myarr = array(arr.typecode)
             for a in range(0, arr.__len__() - 1):
-                self.myarr.append(arr[a])
+                self.myarr += array(arr.typecode, [arr[a]])
         else:
             value = self.myarr[key]
             arr = self.myarr
             self.myarr = array(arr.typecode)
             for b in range(0, arr.__len__()):
                 if b != key:
-                    self.myarr.append(arr[b])
+                    self.myarr += array(arr.typecode, [arr[b]])
         return value
 
     def remove(self, value):
         arr = self.myarr
         self.myarr = array(arr.typecode)
-        num=0
+        num = 0
         for a in arr:
             if (a != value):
-               self.myarr.append(a)
-            if (a == value) and(num==1):
-                self.myarr.append(a)
-            if (a==value) and(num==0):
+                self.myarr += array(arr.typecode, [a])
+            if (a == value) and (num == 1):
+                self.myarr += array(arr.typecode, [a])
+            if (a == value) and (num == 0):
                 num = 1
         if num == 0:
             return ValueError
@@ -103,16 +103,18 @@ class ArrayList:
 
     def __insert__(self, key, value):
         arr = array(self.myarr.typecode)
-        for a in range(0, key - 1):
-            arr.append(self.myarr[a])
-        arr.append(value)
+        for a in range(0, key):
+            # arr.append(self.myarr[a])
+            arr += array(self.myarr.typecode, [self.myarr[a]])
+        arr += array(self.myarr.typecode, [value])
         for a in range(key, self.myarr.__len__()):
-            arr.append(self.myarr[a])
+            arr += array(self.myarr.typecode, [self.myarr[a]])
         self.myarr = arr
 
     def reverse(self):
         arr = array(self.myarr.typecode)
-        arr.extend(self.myarr[::-1])
+        for a in range(self.myarr.__len__()-1,-1,-1):
+            arr += array(self.myarr.typecode, [self.myarr[a]])
         self.myarr = arr
 
 
@@ -146,6 +148,6 @@ check = ArrayList(mas1)
 # for a in range(check.__len__()):
 #     print(check[a])
 # print (check.__reversed__())
-# check.remove("h")
-for a in range(check.__len__()):
-    print(check[a])
+# check.reverse()
+# for a in range(check.__len__()):
+#     print(check[a])
