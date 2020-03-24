@@ -1,6 +1,29 @@
 from array import array
 
 
+class Iter:
+
+    def __init__(self, collections, cursor=-1):
+        if (cursor < -1) or (cursor > len(collections)):
+            raise ValueError()
+        self.collections = collections
+        self.cursor = cursor
+
+    def __iter__(self):
+        return self.cursor
+
+    def __next__(self):
+        if self.cursor + 1 >= len(self.collections):
+            raise StopIteration()
+        self.cursor += 1
+
+    def current(self):
+        return self.collections[self.cursor]
+
+    def first(self):
+        self.cursor = -1
+
+
 class ArrayList:
 
     def __init__(self, arr):
@@ -51,7 +74,8 @@ class ArrayList:
             return self.myarr[item]
 
     def __iter__(self):
-        return self.myarr.__iter__()
+        it = Iter(self.myarr)
+        return it.__iter__()
 
     def __setitem__(self, key, value):
         self.myarr[key] = value
@@ -104,7 +128,6 @@ class ArrayList:
     def __insert__(self, key, value):
         arr = array(self.myarr.typecode)
         for a in range(0, key):
-            # arr.append(self.myarr[a])
             arr += array(self.myarr.typecode, [self.myarr[a]])
         arr += array(self.myarr.typecode, [value])
         for a in range(key, self.myarr.__len__()):
@@ -113,7 +136,7 @@ class ArrayList:
 
     def reverse(self):
         arr = array(self.myarr.typecode)
-        for a in range(self.myarr.__len__()-1,-1,-1):
+        for a in range(self.myarr.__len__() - 1, -1, -1):
             arr += array(self.myarr.typecode, [self.myarr[a]])
         self.myarr = arr
 
@@ -150,4 +173,11 @@ check = ArrayList(mas1)
 # print (check.__reversed__())
 # check.reverse()
 # for a in range(check.__len__()):
-#     print(check[a])
+# print(check[-1])
+# print(check.__iter__())
+it = Iter(mas,5)
+print(it.__iter__())
+# it.__next__()
+# print(it.__iter__())
+# print(it.current())
+# print(check.__iter__())
