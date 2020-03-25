@@ -22,6 +22,11 @@ class Iter:
 
     def first(self):
         self.cursor = -1
+        
+    def previous(self):
+        if self.cursor + 1 >= len(self.collections):
+            raise StopIteration()
+        self.cursor -= 1
 
 
 class ArrayList:
